@@ -24,7 +24,7 @@ class ValorMedioTransacao(MRJob):
 
         pais = campos[0].strip()
         ano = campos[1].strip()
-        categoria = campos[9].strip()  # Pega a categoria diretamente do arquivo
+        categoria = campos[9].strip()  
         tipo_unidade = campos[7].strip()  
         fluxo = campos[4].strip()
         valor_str = campos[5].strip()
@@ -53,7 +53,7 @@ class ValorMedioTransacao(MRJob):
         if contador_total > 0:
             media = valor_total / contador_total
             ano, categoria = chave
-            chave_saida = [ano, categoria]  # Somente ano e categoria
+            chave_saida = [ano, categoria]  
             yield json.dumps(chave_saida), round(media, 2)
 
 if __name__ == '__main__':
