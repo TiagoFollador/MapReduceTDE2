@@ -4,7 +4,6 @@ from mrjob.job import MRJob
 
 # country_or_area;year;comm_code;commodity;flow;trade_usd;weight_kg;quantity_name;quantity;category
 
-# ainda nao implementado corretamente
 
 class ValorMedio(MRJob):
     def mapper(self, _, value):
@@ -25,6 +24,7 @@ class ValorMedio(MRJob):
     def combiner(self, key, values):
         min_value = 0
         min_commodity  = 0
+        
         for commodity, value in values:
              if min_value == 0 or value < min_value:
                 min_value = value
