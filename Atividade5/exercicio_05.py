@@ -4,6 +4,7 @@ import json
 
 class ValorMedioTransacao(MRJob):
 
+    # Define os passos do mapper, combiner e reducer
     def steps(self):
         return [
             MRStep(
@@ -13,6 +14,10 @@ class ValorMedioTransacao(MRJob):
             )
         ]
 
+    # Mapper
+    # Chave: Nenhuma 
+    # Valor: Cada linha do dataset de transações
+    # Retorna: ((ano, categoria), (valor, 1)) para transações de exportação do Brasil
     def mapper_filtrar_e_extrair(self, _, linha):
         if linha.startswith('country_or_area'):
             return
@@ -36,6 +41,10 @@ class ValorMedioTransacao(MRJob):
             except ValueError:
                 return
 
+    # Combiner
+    # Chave: (ano, categoria)
+    # Valor: Uma lista de tuplas (valor, 1) do mapper
+    # Retorna: (ano, categoria), (soma total dos valores, número total de transações)
     def combiner_somar_e_contar(self, chave, valores):
         valor_total = 0
         contador = 0
@@ -44,6 +53,10 @@ class ValorMedioTransacao(MRJob):
             contador += cnt
         yield chave, (valor_total, contador)
 
+    # Reducer
+    # Chave: (ano, categoria)
+    # Valor: Uma lista de tuplas (soma total dos valores, número total de transações) do combiner
+    # Retorna: JSON com (ano, categoria), e média dos valores de transações para exportações do Brasil
     def reducer_calcular_media(self, chave, valores):
         valor_total = 0
         contador_total = 0
