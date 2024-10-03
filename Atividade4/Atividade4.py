@@ -7,7 +7,7 @@ from mrjob.job import MRJob
 class ValorMedio(MRJob):
 
     # Mapper
-    # Chave: Nenhuma (o identificador de chave é ignorado)
+    # Chave: Nenhuma
     # Valor: Cada linha do dataset de transações
     # Retorna: (ano, (valor do comércio em USD, 1)) se a linha for válida
     def mapper(self, _, value):
