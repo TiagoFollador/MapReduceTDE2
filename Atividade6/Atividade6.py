@@ -6,6 +6,10 @@ from mrjob.job import MRJob
 
 
 class ValorMedio(MRJob):
+    # Mapper
+    # Chave: Nenhuma 
+    # Valor: Cada linha do dataset de transações
+    # Retorna: ((ano, categoria), (commodity, valor de comércio)) para cada linha válida
     def mapper(self, _, value):
         fields = value.split(';')
         if fields[0] == "country_or_area":
@@ -19,8 +23,11 @@ class ValorMedio(MRJob):
                 yield (year, category), (commodity, tradeUsd)
             except ValueError:
                 pass     
-                
 
+    # Combiner
+    # Chave: (ano, categoria)
+    # Valor: Uma lista de tuplas (commodity, valor de comércio) do mapper
+    # Retorna: (ano, categoria), (commodity de menor valor, menor valor de comércio) até o momento
     def combiner(self, key, values):
         min_value = 0
         min_commodity  = 0
@@ -31,6 +38,10 @@ class ValorMedio(MRJob):
                 min_commodity = commodity
         yield key, (min_commodity, min_value)
 
+    # Reducer
+    # Chave: (ano, categoria)
+    # Valor: Uma lista de tuplas (commodity, valor de comércio) do combiner
+    # Retorna: (ano, categoria), (commodity de menor valor, menor valor de comércio) após consolidar todos os valores
     def reducer(self, key, values):
         min_value = 0
         min_commodity = 0
@@ -41,8 +52,10 @@ class ValorMedio(MRJob):
                 min_commodity = commodity
         
         yield key, (min_commodity, min_value)
+
 if __name__ == "__main__":
     ValorMedio.run()
+
     
 # python .\Atividade6\Atividade6.py .\operacoes_comerciais_inteira.csv --output .\Atividade6\output\
 #  cat .\Atividade6\output\* > .\Atividade6\outputAtividade6
