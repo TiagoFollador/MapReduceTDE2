@@ -13,7 +13,7 @@ class CommoditiesPorFluxo(MRJob):
         ]
 
     # Mapper
-    # Chave: Nenhuma (identificador de chave ignorado)
+    # Chave: Nenhuma 
     # Valor: Cada linha do dataset de transações
     # Retorna: ((fluxo, mercadoria), quantidade) para transações da China em 2014, filtradas por 'Number of items'
     def mapper_filtrar_transacoes(self, _, linha):
