@@ -7,6 +7,11 @@ from mrjob.job import MRJob
 # country_or_area;year;comm_code;commodity;flow;trade_usd;weight_kg;quantity_name;quantity;category
 
 class CommodityComMaisLucroPorPeso(MRJob):
+
+    # Mapper
+    # Chave: Nenhuma 
+    # Valor: Cada linha do dataset de transações
+    # Retorna: (fluxo, (commodity, valor por Kg)) para transações de 2015 com 'Number of items' como tipo de unidade
     def mapper(self, _, value):
         fields = value.split(';')
         if fields[0] == "country_or_area":
@@ -27,6 +32,10 @@ class CommodityComMaisLucroPorPeso(MRJob):
                 except ValueError:
                     pass
 
+    # Combiner
+    # Chave: fluxo
+    # Valor: Uma lista de tuplas (commodity, valor por Kg) do mapper
+    # Retorna: (fluxo, (commodity com maior valor por Kg, maior valor por Kg)) localmente
     def combiner(self, key, values):
         maxValue = 0
         commodityMaxValue = ""
@@ -36,6 +45,10 @@ class CommodityComMaisLucroPorPeso(MRJob):
                 commodityMaxValue = commodity
         yield key, (commodityMaxValue, maxValue)
 
+    # Reducer
+    # Chave: fluxo
+    # Valor: Uma lista de tuplas (commodity, valor por Kg) do combiner
+    # Retorna: (fluxo, (commodity com maior valor por Kg, maior valor por Kg)) após agregar todos os combiners
     def reducer(self, key, values):
         maxValue = 0
         commodityMaxValue = ""
@@ -47,6 +60,7 @@ class CommodityComMaisLucroPorPeso(MRJob):
 
 if __name__ == '__main__':
     CommodityComMaisLucroPorPeso.run()
+
 
 # python .\Atividade8\Atividade8.py .\operacoes_comerciais_inteira.csv --output .\Atividade8\output\
 # cat .\Atividade8\output\* > .\Atividade8\outputAtividade8
