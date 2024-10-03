@@ -71,3 +71,6 @@ class ValorMedioTransacao(MRJob):
 
 if __name__ == '__main__':
     ValorMedioTransacao.run()
+
+# python .\Atividade5\Atividade5.py .\operacoes_comerciais_inteira.csv --output .\Atividade5\output\
+# cat .\Atividade5\output\* > .\Atividade5\outputAtividade5
