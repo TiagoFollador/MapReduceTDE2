@@ -10,7 +10,7 @@ class ContagemTransacoes(MRJob):
                    reducer=self.reducer_contar_transacoes)
         ]
 
-
+    #Mapper
     #Chave: Nenhuma
     #Valor: Cada linha do dataset de transações
     #Retorna: (país, 1) se o país for "Australia", "Brazil" ou "China"
@@ -25,14 +25,14 @@ class ContagemTransacoes(MRJob):
         if pais in ["Australia", "Brazil", "China"]:
             yield (pais, 1)
 
-    
+    #Combiner
     #Chave: país
     #Valor: Uma lista de contagens de 1s do mapper
     #Retorna: (país, soma das contagens)
     def combiner_contar_transacoes(self, pais, contagens):
         yield (pais, sum(contagens))
 
-
+    #Reducer
     #Chave: país
     #Valor: Uma lista de contagens parciais do combiner
     #Retorna: (país, soma total das contagens)
