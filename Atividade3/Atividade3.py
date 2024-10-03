@@ -12,7 +12,7 @@ class ContagemTransacoesFluxoAno(MRJob):
         ]
     
     # Mapper
-    # Chave: Nenhuma (identificador de chave é ignorado)
+    # Chave: Nenhuma
     # Valor: Cada linha do dataset de transações
     # Retorna: ((fluxo, ano), 1) para cada linha que contém dados válidos
     def mapper_obter_fluxo_ano(self, _, linha):
