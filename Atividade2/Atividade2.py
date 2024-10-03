@@ -5,7 +5,7 @@ from mrjob.job import MRJob
 class Transacoes(MRJob):
 
     # Mapper
-    #Chave: Nenhuma (o identificador de chave é ignorado)
+    #Chave: Nenhuma 
     #Valor: Cada linha do dataset de transações
     #Retorna: (ano, 1) se a linha não for o cabeçalho e tiver 10 campos
     def mapper(self, _, value):
