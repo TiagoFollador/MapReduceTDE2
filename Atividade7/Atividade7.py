@@ -67,3 +67,6 @@ class CommoditiesPorFluxo(MRJob):
 
 if __name__ == '__main__':
     CommoditiesPorFluxo.run()
+
+# python .\Atividade7\Atividade7.py .\operacoes_comerciais_inteira.csv --output .\Atividade7\output\
+#  cat .\Atividade7\output\* > .\Atividade7\outputAtividade7
